@@ -14,7 +14,7 @@ spec:
       spec:
         containers:
         - name: react-clock-basic
-          image: registrytla.azurecr.io/react-clock-basic:v1
+          image: registrytla.azurecr.io/react-clock-basic:v4
           imagePullPolicy: Always
           readinessProbe:
             httpGet:
