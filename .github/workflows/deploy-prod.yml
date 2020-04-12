@@ -1,4 +1,7 @@
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -27,12 +30,12 @@ jobs:
         namespacePresent=`kubectl get namespace | grep tlak8s2543 | wc -l`
         if [ $namespacePresent -eq 0 ]
         then
-            echo `kubectl create namespace tlak8s2543`
+            echo `kubectl create namespace tlak8s2543-prod`
         fi
 
     - uses: azure/k8s-create-secret@v1
       with:
-        namespace: tlak8s2543
+        namespace: tlak8s2543-prod
         container-registry-url: registrytla.azurecr.io
         container-registry-username: ${{ secrets.acr_registrytla_username }}
         container-registry-password: ${{ secrets.acr_registrytla_password }}
@@ -40,7 +43,7 @@ jobs:
        
     - uses: azure/k8s-deploy@v1
       with:
-        namespace: tlak8s2543
+        namespace: tlak8s2543-prod
         manifests: |
           manifests/deployment-1.yml
           manifests/service-1.yml
